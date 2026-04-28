@@ -1,0 +1,1373 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lajos & Coelho — Gestão e Serviços em Saúde</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2358C3B5'/%3E%3Cstop offset='1' stop-color='%238BD5F0'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d='M14 4 L60 4 L60 18 L28 18 Q18 18 18 28 L18 60 L4 60 L4 14 Q4 4 14 4 Z' fill='url(%23g)'/%3E%3Cpath d='M60 60 L24 60 L24 46 L46 46 L46 24 L60 24 Z' fill='url(%23g)' opacity='.55'/%3E%3Ccircle cx='53' cy='11' r='3.2' fill='%2355F28C'/%3E%3C/svg%3E" />
+  <style>
+    :root {
+      --teal: #58C3B5;
+      --sky: #8BD5F0;
+      --green: #55F28C;
+      --ink: #2B2B2E;
+      --muted: #6B7375;
+      --soft: #9AA3A5;
+      --bg: #F7FAFA;
+      --line: #E6ECEC;
+      --line-2: #EFF4F4;
+      --glass: rgba(255,255,255,0.6);
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      font-feature-settings: 'cv11', 'ss01';
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.5;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; border: none; background: none; }
+
+    /* ============== Container ============== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 28px; }
+
+    /* ============== Buttons ============== */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 500; font-size: 14px;
+      transition: transform .25s cubic-bezier(.2,.8,.2,1), box-shadow .25s, background .25s;
+      white-space: nowrap;
+    }
+    .btn-primary {
+      background: var(--ink); color: #fff;
+      box-shadow: 0 1px 0 rgba(255,255,255,.1) inset, 0 6px 18px -6px rgba(43,43,46,.4);
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 26px -8px rgba(43,43,46,.5); }
+    .btn-primary .arr { transition: transform .25s; }
+    .btn-primary:hover .arr { transform: translateX(3px); }
+    .btn-ghost {
+      color: var(--ink);
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .btn-ghost:hover { border-color: #c9d3d3; transform: translateY(-2px); }
+    .btn-grad {
+      background: linear-gradient(135deg, var(--teal), var(--sky));
+      color: #0B3A4A; font-weight: 600;
+      box-shadow: 0 8px 24px -8px rgba(88,195,181,.55);
+    }
+    .btn-grad:hover { transform: translateY(-2px); box-shadow: 0 14px 30px -8px rgba(88,195,181,.7); }
+
+    /* ============== Nav ============== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      background: rgba(247,250,250,.72);
+      border-bottom: 1px solid transparent;
+      transition: border-color .3s, background .3s;
+    }
+    .nav.scrolled { border-bottom-color: var(--line); background: rgba(247,250,250,.85); }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 16px 0;
+    }
+    .nav-brand { display: flex; align-items: center; gap: 10px; }
+    .nav-brand-text { font-weight: 600; letter-spacing: -.01em; font-size: 16px; }
+    .nav-brand-text .amp { font-weight: 300; color: var(--teal); margin: 0 2px; }
+    .nav-links { display: flex; gap: 28px; }
+    .nav-links a { font-size: 14px; color: var(--muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--ink); }
+    .nav-cta { display: flex; align-items: center; gap: 10px; }
+
+    @media (max-width: 820px) {
+      .nav-links { display: none; }
+    }
+
+    /* ============== Hero ============== */
+    .hero {
+      padding: 140px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0;
+      pointer-events: none;
+    }
+    .hero-bg .blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: .55;
+    }
+    .hero-bg .b1 { top: -10%; left: -8%; width: 480px; height: 480px;
+      background: radial-gradient(closest-side, rgba(88,195,181,.6), transparent 70%);
+      animation: drift 18s ease-in-out infinite; }
+    .hero-bg .b2 { top: 10%; right: -10%; width: 520px; height: 520px;
+      background: radial-gradient(closest-side, rgba(139,213,240,.55), transparent 70%);
+      animation: drift 22s ease-in-out infinite reverse; }
+    .hero-bg .b3 { bottom: -20%; left: 30%; width: 400px; height: 400px;
+      background: radial-gradient(closest-side, rgba(85,242,140,.25), transparent 70%);
+      animation: drift 26s ease-in-out infinite; }
+    @keyframes drift {
+      0%,100% { transform: translate3d(0,0,0); }
+      50%     { transform: translate3d(40px,-30px,0); }
+    }
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 60px;
+      align-items: center;
+      position: relative;
+    }
+    @media (max-width: 980px) {
+      .hero-grid { grid-template-columns: 1fr; gap: 40px; }
+      .hero { padding: 120px 0 60px; }
+    }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255,255,255,.7);
+      border: 1px solid var(--line);
+      backdrop-filter: blur(10px);
+      border-radius: 999px;
+      font-size: 12px; color: var(--muted);
+      font-weight: 500;
+    }
+    .pill-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 3px rgba(85,242,140,.25);
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100% { box-shadow: 0 0 0 3px rgba(85,242,140,.25); }
+      50%     { box-shadow: 0 0 0 6px rgba(85,242,140,.0); }
+    }
+
+    h1.title {
+      font-size: clamp(40px, 5.6vw, 68px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1.04;
+      margin: 18px 0 22px;
+      text-wrap: balance;
+    }
+    h1.title .grad {
+      background: linear-gradient(120deg, var(--teal) 0%, var(--sky) 60%, #aedaef 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .lede {
+      font-size: 18px; color: var(--muted);
+      max-width: 540px;
+      margin: 0 0 32px;
+      text-wrap: pretty;
+    }
+    .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+    .hero-trust {
+      display: flex; gap: 24px; margin-top: 36px;
+      font-size: 12px; color: var(--soft);
+    }
+    .hero-trust b { color: var(--ink); font-weight: 600; font-size: 18px; display: block; }
+
+    /* ============== Dashboard mock ============== */
+    .dash-wrap { position: relative; }
+    .dash {
+      background: rgba(255,255,255,.75);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(230,236,236,.8);
+      border-radius: 20px;
+      box-shadow: 0 30px 80px -20px rgba(43,43,46,.18), 0 2px 6px rgba(43,43,46,.04);
+      overflow: hidden;
+      animation: float 8s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0) rotate(0); }
+      50%     { transform: translateY(-10px) rotate(.3deg); }
+    }
+    .dash-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--line-2);
+      background: rgba(247,250,250,.6);
+    }
+    .dash-bar .dot { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+    .dash-bar .url-mini {
+      flex: 1;
+      font-family: 'JetBrains Mono', monospace; font-size: 11px;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      padding: 4px 10px;
+      margin-left: 8px;
+    }
+    .dash-body {
+      padding: 22px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .kpi {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 16px;
+    }
+    .kpi.span2 { grid-column: span 2; }
+    .kpi-label { font-size: 11px; color: var(--muted); letter-spacing: .04em; text-transform: uppercase; font-weight: 500; }
+    .kpi-value { font-size: 28px; font-weight: 700; letter-spacing: -.02em; margin: 4px 0 0; }
+    .kpi-delta { font-size: 12px; color: #1f9a4f; font-weight: 600; display: inline-flex; align-items: center; gap: 4px; }
+    .kpi-delta.down { color: #c0473a; }
+
+    /* mini chart */
+    .spark {
+      width: 100%; height: 60px;
+      margin-top: 10px;
+    }
+    /* progress */
+    .bar {
+      height: 6px; background: var(--line-2); border-radius: 999px; overflow: hidden;
+      margin-top: 8px;
+    }
+    .bar > i {
+      display: block; height: 100%;
+      background: linear-gradient(90deg, var(--teal), var(--sky));
+      border-radius: 999px;
+      animation: barfill 2.4s cubic-bezier(.2,.8,.2,1) both;
+    }
+    @keyframes barfill { from { width: 0; } }
+
+    .row-list { display: grid; gap: 8px; margin-top: 10px; }
+    .row-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 8px 12px;
+      border: 1px solid var(--line-2);
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .row-item .v { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; }
+
+    /* floating tooltip card */
+    .float-card {
+      position: absolute;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 12px 14px;
+      box-shadow: 0 18px 40px -14px rgba(43,43,46,.18);
+      font-size: 12px;
+      animation: floatY 6s ease-in-out infinite;
+    }
+    .float-card.f1 { top: -12px; right: -18px; animation-delay: -2s; }
+    .float-card.f2 { bottom: 60px; left: -28px; }
+    @keyframes floatY {
+      0%,100% { transform: translateY(0); }
+      50%     { transform: translateY(-10px); }
+    }
+    .fc-row { display: flex; align-items: center; gap: 8px; }
+    .fc-dot { width: 8px; height: 8px; border-radius: 50%; }
+
+    /* ============== Section header ============== */
+    section { padding: 100px 0; position: relative; }
+    .eyebrow {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; letter-spacing: .14em; text-transform: uppercase;
+      color: var(--teal); font-weight: 600;
+      margin-bottom: 16px;
+    }
+    .eyebrow::before {
+      content: ''; width: 24px; height: 1px; background: var(--teal);
+    }
+    h2 {
+      font-size: clamp(32px, 3.6vw, 46px);
+      font-weight: 700;
+      letter-spacing: -.025em;
+      line-height: 1.1;
+      margin: 0 0 18px;
+      max-width: 720px;
+      text-wrap: balance;
+    }
+    h2 .grad {
+      background: linear-gradient(120deg, var(--teal), var(--sky));
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .sec-lede {
+      font-size: 17px; color: var(--muted); max-width: 620px;
+      text-wrap: pretty;
+    }
+
+    /* ============== Logos marquee ============== */
+    .logos {
+      padding: 60px 0;
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+    .logos-label {
+      text-align: center; font-size: 12px; color: var(--muted);
+      letter-spacing: .14em; text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+    .marquee {
+      overflow: hidden;
+      mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    }
+    .marquee-track {
+      display: flex; gap: 64px;
+      animation: tick 38s linear infinite;
+      white-space: nowrap;
+      width: max-content;
+    }
+    @keyframes tick { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .logo-fake {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 18px; font-weight: 600; color: var(--soft);
+      letter-spacing: -.01em;
+      transition: color .3s, filter .3s;
+    }
+    .logo-fake:hover { color: var(--ink); }
+    .logo-fake .lf-icon { width: 22px; height: 22px; border-radius: 6px; opacity: .5; }
+
+    /* ============== Services ============== */
+    .services-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+      margin-top: 50px;
+    }
+    @media (max-width: 880px) { .services-grid { grid-template-columns: 1fr; } }
+
+    .svc {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 28px;
+      transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s, border-color .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .svc::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(88,195,181,.06), transparent 50%);
+      opacity: 0; transition: opacity .4s;
+      pointer-events: none;
+    }
+    .svc:hover { transform: translateY(-6px); box-shadow: 0 24px 50px -20px rgba(43,43,46,.15); border-color: #d8e0e0; }
+    .svc:hover::before { opacity: 1; }
+    .svc-icon {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(88,195,181,.18), rgba(139,213,240,.18));
+      border: 1px solid rgba(88,195,181,.25);
+      display: grid; place-items: center;
+      margin-bottom: 18px;
+    }
+    .svc h3 {
+      font-size: 18px; font-weight: 600; letter-spacing: -.01em;
+      margin: 0 0 8px;
+    }
+    .svc p { color: var(--muted); font-size: 14px; margin: 0 0 18px; }
+    .svc ul {
+      list-style: none; margin: 0; padding: 0;
+      display: grid; gap: 8px;
+      font-size: 13px; color: var(--ink);
+    }
+    .svc ul li { display: flex; gap: 10px; align-items: flex-start; }
+    .svc ul li::before {
+      content: ''; width: 6px; height: 6px;
+      background: var(--teal);
+      border-radius: 2px;
+      margin-top: 8px;
+      flex-shrink: 0;
+    }
+
+    /* ============== Methodology (steps) ============== */
+    .method-bg {
+      background: linear-gradient(180deg, #fff 0%, #F0F7F7 100%);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 50px;
+      position: relative;
+    }
+    @media (max-width: 880px) { .steps { grid-template-columns: 1fr; } }
+    .steps::before {
+      content: '';
+      position: absolute;
+      top: 28px; left: 5%; right: 5%;
+      height: 2px;
+      background: repeating-linear-gradient(90deg, var(--teal) 0 6px, transparent 6px 12px);
+      opacity: .35;
+    }
+    @media (max-width: 880px) { .steps::before { display: none; } }
+    .step {
+      padding: 0 16px;
+      position: relative;
+    }
+    .step-num {
+      width: 56px; height: 56px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      display: grid; place-items: center;
+      font-family: 'JetBrains Mono', monospace; font-weight: 600;
+      font-size: 18px;
+      color: var(--ink);
+      margin-bottom: 18px;
+      position: relative; z-index: 1;
+      transition: transform .4s, border-color .3s;
+    }
+    .step:hover .step-num {
+      transform: scale(1.05);
+      border-color: var(--teal);
+      background: linear-gradient(135deg, rgba(88,195,181,.1), rgba(139,213,240,.1));
+    }
+    .step h3 { font-size: 17px; font-weight: 600; margin: 0 0 6px; letter-spacing: -.01em; }
+    .step p { font-size: 14px; color: var(--muted); margin: 0; }
+
+    /* ============== Metrics ============== */
+    .metrics {
+      background: linear-gradient(135deg, #0E1416 0%, #14201F 50%, #0E1416 100%);
+      color: #fff;
+      border-radius: 24px;
+      padding: 60px 50px;
+      position: relative;
+      overflow: hidden;
+    }
+    .metrics::before {
+      content: '';
+      position: absolute; top: -30%; left: 30%; width: 60%; height: 100%;
+      background: radial-gradient(closest-side, rgba(88,195,181,.4), transparent 70%);
+      filter: blur(40px);
+    }
+    .metrics::after {
+      content: '';
+      position: absolute; bottom: -30%; right: 10%; width: 50%; height: 100%;
+      background: radial-gradient(closest-side, rgba(139,213,240,.3), transparent 70%);
+      filter: blur(40px);
+    }
+    .metrics-grid {
+      position: relative;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 32px;
+    }
+    @media (max-width: 880px) { .metrics-grid { grid-template-columns: repeat(2, 1fr); } }
+    .metric-num {
+      font-size: clamp(40px, 4.6vw, 56px);
+      font-weight: 700;
+      letter-spacing: -.03em;
+      line-height: 1;
+      background: linear-gradient(120deg, #fff, #aedaef);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .metric-label {
+      font-size: 14px;
+      color: rgba(255,255,255,.6);
+      margin-top: 10px;
+    }
+
+    /* ============== Why us ============== */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 22px;
+      margin-top: 50px;
+    }
+    @media (max-width: 880px) { .why-grid { grid-template-columns: 1fr; } }
+    .why {
+      padding: 28px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      display: flex;
+      gap: 20px;
+      transition: transform .4s, box-shadow .4s;
+    }
+    .why:hover { transform: translateY(-4px); box-shadow: 0 18px 40px -16px rgba(43,43,46,.12); }
+    .why-icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--ink);
+      color: var(--green);
+      display: grid; place-items: center;
+    }
+    .why h3 { margin: 2px 0 6px; font-size: 17px; font-weight: 600; letter-spacing: -.01em; }
+    .why p { margin: 0; color: var(--muted); font-size: 14px; }
+
+    /* ============== Testimonial ============== */
+    .testi {
+      background: linear-gradient(135deg, #fff 0%, #F0F7F7 100%);
+      border: 1px solid var(--line);
+      border-radius: 24px;
+      padding: 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    @media (max-width: 700px) { .testi { padding: 40px 28px; } }
+    .testi-quote {
+      font-size: clamp(22px, 2.4vw, 28px);
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -.015em;
+      max-width: 820px;
+      margin: 0 0 28px;
+      text-wrap: pretty;
+    }
+    .testi-quote::before {
+      content: '"';
+      position: absolute;
+      top: 20px; left: 30px;
+      font-size: 120px; line-height: 1;
+      color: rgba(88,195,181,.18);
+      font-family: Georgia, serif;
+      pointer-events: none;
+    }
+    .testi-author { display: flex; align-items: center; gap: 14px; }
+    .avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal), var(--sky));
+      display: grid; place-items: center;
+      color: #fff; font-weight: 600;
+    }
+    .testi-author b { display: block; font-size: 14px; }
+    .testi-author span { color: var(--muted); font-size: 13px; }
+
+    /* ============== FAQ ============== */
+    .faq-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.5fr;
+      gap: 60px;
+      align-items: start;
+    }
+    @media (max-width: 880px) { .faq-grid { grid-template-columns: 1fr; gap: 30px; } }
+    .faq-list { display: grid; gap: 8px; }
+    .faq-item {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .faq-item.open { border-color: var(--teal); box-shadow: 0 12px 30px -16px rgba(88,195,181,.3); }
+    .faq-q {
+      width: 100%;
+      padding: 18px 22px;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+      font-size: 15px; font-weight: 500; color: var(--ink);
+      text-align: left;
+    }
+    .faq-icon {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--line);
+      display: grid; place-items: center;
+      flex-shrink: 0;
+      transition: transform .3s, background .3s, color .3s, border-color .3s;
+    }
+    .faq-item.open .faq-icon {
+      transform: rotate(45deg);
+      background: var(--ink); color: #fff; border-color: var(--ink);
+    }
+    .faq-a {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height .4s cubic-bezier(.2,.8,.2,1);
+    }
+    .faq-a-inner {
+      padding: 0 22px 20px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-a { max-height: 240px; }
+
+    /* ============== CTA final ============== */
+    .cta-final {
+      position: relative;
+      background:
+        radial-gradient(ellipse at top left, rgba(88,195,181,.18), transparent 60%),
+        radial-gradient(ellipse at bottom right, rgba(139,213,240,.18), transparent 60%),
+        #fff;
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 80px 60px;
+      text-align: center;
+      overflow: hidden;
+    }
+    @media (max-width: 700px) { .cta-final { padding: 50px 26px; } }
+    .cta-final h2 { margin-left: auto; margin-right: auto; }
+    .cta-final .sec-lede { margin: 0 auto 28px; }
+    .cta-final .hero-ctas { justify-content: center; }
+
+    /* Form */
+    .form-grid {
+      max-width: 520px;
+      margin: 32px auto 0;
+      display: grid;
+      gap: 12px;
+    }
+    .input-group { position: relative; }
+    .input-group input,
+    .input-group select {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--ink);
+      transition: border-color .25s, box-shadow .25s;
+    }
+    .input-group input:focus,
+    .input-group select:focus {
+      outline: none;
+      border-color: var(--teal);
+      box-shadow: 0 0 0 3px rgba(88,195,181,.15);
+    }
+    .input-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 600px) { .input-row { grid-template-columns: 1fr; } }
+    .form-grid .btn-primary { justify-content: center; padding: 14px 20px; }
+    .form-success {
+      padding: 18px 20px;
+      background: linear-gradient(135deg, rgba(85,242,140,.15), rgba(88,195,181,.1));
+      border: 1px solid rgba(85,242,140,.4);
+      border-radius: 12px;
+      font-size: 14px;
+      color: var(--ink);
+      display: none;
+    }
+    .form-success.show { display: block; animation: pop .4s cubic-bezier(.2,.8,.2,1); }
+    @keyframes pop {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: none; }
+    }
+
+    /* ============== Footer ============== */
+    footer {
+      padding: 70px 0 40px;
+      background: var(--ink);
+      color: rgba(255,255,255,.7);
+      font-size: 13px;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 40px;
+      padding-bottom: 40px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+    @media (max-width: 880px) { .footer-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .footer-grid { grid-template-columns: 1fr; } }
+    footer h5 {
+      font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+      color: #fff; margin: 0 0 16px; font-weight: 600;
+    }
+    footer ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+    footer ul a:hover { color: #fff; }
+    .footer-brand-text { font-size: 17px; color: #fff; font-weight: 600; }
+    .footer-brand-text .amp { color: var(--sky); font-weight: 300; margin: 0 2px; }
+    .footer-bottom {
+      padding-top: 24px;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+      font-size: 12px; color: rgba(255,255,255,.5);
+    }
+
+    /* ============== Reveal on scroll ============== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .9s cubic-bezier(.2,.8,.2,1), transform .9s cubic-bezier(.2,.8,.2,1);
+    }
+    .reveal.in { opacity: 1; transform: none; }
+    .reveal.delay-1 { transition-delay: .08s; }
+    .reveal.delay-2 { transition-delay: .16s; }
+    .reveal.delay-3 { transition-delay: .24s; }
+    .reveal.delay-4 { transition-delay: .32s; }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+
+  <template id="__bundler_thumbnail">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="t" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#58C3B5"/><stop offset="1" stop-color="#8BD5F0"/>
+        </linearGradient>
+      </defs>
+      <rect width="100" height="100" fill="#F7FAFA"/>
+      <g transform="translate(28 28) scale(.69)">
+        <path d="M 14 4 L 60 4 L 60 18 L 28 18 Q 18 18 18 28 L 18 60 L 4 60 L 4 14 Q 4 4 14 4 Z" fill="url(#t)"/>
+        <path d="M 60 60 L 24 60 L 24 46 L 46 46 L 46 24 L 60 24 Z" fill="url(#t)" opacity=".55"/>
+        <circle cx="53" cy="11" r="3.2" fill="#55F28C"/>
+      </g>
+    </svg>
+  </template>
+</head>
+<body>
+
+<!-- ============================================================
+     NAV
+============================================================ -->
+<nav class="nav" id="nav">
+  <div class="container nav-inner">
+    <a href="#top" class="nav-brand">
+      <svg width="32" height="32" viewBox="0 0 64 64">
+        <defs>
+          <linearGradient id="navg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#58C3B5"/><stop offset="1" stop-color="#8BD5F0"/>
+          </linearGradient>
+        </defs>
+        <path d="M 14 4 L 60 4 L 60 18 L 28 18 Q 18 18 18 28 L 18 60 L 4 60 L 4 14 Q 4 4 14 4 Z" fill="url(#navg)"/>
+        <path d="M 60 60 L 24 60 L 24 46 L 46 46 L 46 24 L 60 24 Z" fill="url(#navg)" opacity=".55"/>
+        <circle cx="53" cy="11" r="3.2" fill="#55F28C"/>
+      </svg>
+      <span class="nav-brand-text">Lajos<span class="amp">&</span>Coelho</span>
+    </a>
+    <div class="nav-links">
+      <a href="#servicos">Serviços</a>
+      <a href="#metodo">Metodologia</a>
+      <a href="#resultados">Resultados</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-cta">
+      <a href="#contato" class="btn btn-primary">
+        Agendar diagnóstico
+        <svg class="arr" width="14" height="14" viewBox="0 0 16 16" fill="none">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============================================================
+     HERO
+============================================================ -->
+<header class="hero" id="top">
+  <div class="hero-bg">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+  </div>
+  <div class="container hero-grid">
+    <div>
+      <span class="pill reveal"><span class="pill-dot"></span> Para gestores e diretores de saúde</span>
+      <h1 class="title reveal delay-1">
+        Gestão em saúde com <span class="grad">inteligência operacional</span> de ponta a ponta.
+      </h1>
+      <p class="lede reveal delay-2">
+        Diagnóstico, indicadores e execução em um único sistema. Reduzimos custo, organizamos processos e devolvemos previsibilidade ao seu serviço de saúde — sem soluções genéricas.
+      </p>
+      <div class="hero-ctas reveal delay-3">
+        <a href="#contato" class="btn btn-primary">
+          Agendar diagnóstico gratuito
+          <svg class="arr" width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <a href="#metodo" class="btn btn-ghost">Ver metodologia</a>
+      </div>
+      <div class="hero-trust reveal delay-4">
+        <div><b data-count="40">0</b>+ instituições atendidas</div>
+        <div><b data-count="98" data-suffix="%">0%</b> de retenção</div>
+        <div><b data-count="12">0</b> anos de experiência</div>
+      </div>
+    </div>
+
+    <!-- Dashboard mock -->
+    <div class="dash-wrap reveal delay-2">
+      <div class="dash">
+        <div class="dash-bar">
+          <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+          <div class="url-mini">app.lajoscoelho.com.br · painel</div>
+        </div>
+        <div class="dash-body">
+          <div class="kpi span2">
+            <div class="kpi-label">Indicador geral · operação</div>
+            <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:14px;">
+              <div>
+                <div class="kpi-value" data-count="92" data-suffix="%">0%</div>
+                <span class="kpi-delta">▲ 8.4 pts vs. trimestre</span>
+              </div>
+              <svg class="spark" viewBox="0 0 200 60" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="sg" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stop-color="#58C3B5" stop-opacity=".4"/>
+                    <stop offset="1" stop-color="#58C3B5" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,45 L20,40 L40,42 L60,32 L80,36 L100,28 L120,24 L140,22 L160,16 L180,20 L200,10 L200,60 L0,60 Z" fill="url(#sg)"/>
+                <path d="M0,45 L20,40 L40,42 L60,32 L80,36 L100,28 L120,24 L140,22 L160,16 L180,20 L200,10" fill="none" stroke="#58C3B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <circle cx="200" cy="10" r="3.5" fill="#55F28C"/>
+              </svg>
+            </div>
+            <div class="bar"><i style="width:92%"></i></div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">SLA</div>
+            <div class="kpi-value" data-count="99.2" data-suffix="%">0%</div>
+            <span class="kpi-delta">▲ estável</span>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Custo / leito</div>
+            <div class="kpi-value" data-count="14" data-prefix="-" data-suffix="%">0%</div>
+            <span class="kpi-delta">▼ otimizado</span>
+          </div>
+          <div class="kpi span2">
+            <div class="kpi-label">Equipes em campo</div>
+            <div class="row-list">
+              <div class="row-item"><span>Auditoria clínica</span><span class="v" style="color:#1f9a4f;">✓ 100%</span></div>
+              <div class="row-item"><span>Indicadores BI</span><span class="v" style="color:#58C3B5;">em rota</span></div>
+              <div class="row-item"><span>Operação técnica</span><span class="v" style="color:#8BD5F0;">8 / 12</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="float-card f1">
+        <div class="fc-row" style="margin-bottom:6px;">
+          <div class="fc-dot" style="background:#55F28C;"></div>
+          <b style="font-size:11px;">Alerta resolvido</b>
+        </div>
+        <div style="color:var(--muted); font-size:11px;">Tempo de resposta: 3min</div>
+      </div>
+      <div class="float-card f2">
+        <div class="fc-row">
+          <div class="fc-dot" style="background:linear-gradient(135deg,#58C3B5,#8BD5F0);"></div>
+          <div>
+            <div style="font-weight:600; font-size:12px;">+R$ 280k</div>
+            <div style="color:var(--muted); font-size:11px;">eficiência mensal</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ============================================================
+     LOGOS marquee
+============================================================ -->
+<section class="logos" style="padding:60px 0;">
+  <div class="container">
+    <div class="logos-label">Confiado por instituições de saúde em todo o Brasil</div>
+    <div class="marquee">
+      <div class="marquee-track">
+        <span class="logo-fake"><span class="lf-icon" style="background:#58C3B5;"></span>Hospital Vértice</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#8BD5F0;"></span>Clínica Solene</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#55F28C;"></span>Norte Saúde</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#2B2B2E;"></span>Instituto Aon</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#58C3B5;"></span>Rede Caju</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#8BD5F0;"></span>MedPrime</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#55F28C;"></span>Plenitude</span>
+        <!-- duplicate -->
+        <span class="logo-fake"><span class="lf-icon" style="background:#58C3B5;"></span>Hospital Vértice</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#8BD5F0;"></span>Clínica Solene</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#55F28C;"></span>Norte Saúde</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#2B2B2E;"></span>Instituto Aon</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#58C3B5;"></span>Rede Caju</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#8BD5F0;"></span>MedPrime</span>
+        <span class="logo-fake"><span class="lf-icon" style="background:#55F28C;"></span>Plenitude</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     SERVIÇOS
+============================================================ -->
+<section id="servicos">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">O que fazemos</span>
+      <h2>Gestão em saúde, com <span class="grad">profundidade técnica</span> e clareza operacional.</h2>
+      <p class="sec-lede">Atuamos onde o gestor mais sente a dor: indicadores que não conversam, custos que não fecham e equipes desalinhadas. Desenhamos cada frente sob medida.</p>
+    </div>
+    <div class="services-grid">
+      <article class="svc reveal">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 12h4l2-6 4 12 2-6h6" stroke="#58C3B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Diagnóstico operacional</h3>
+        <p>Mapeamos sua operação ponta a ponta para revelar gargalos invisíveis e oportunidades de eficiência.</p>
+        <ul>
+          <li>Análise de fluxos e processos</li>
+          <li>Mapa de riscos e desperdícios</li>
+          <li>Plano de ação priorizado</li>
+        </ul>
+      </article>
+      <article class="svc reveal delay-1">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="3" width="7" height="9" rx="1.5" stroke="#58C3B5" stroke-width="2"/>
+            <rect x="14" y="3" width="7" height="5" rx="1.5" stroke="#58C3B5" stroke-width="2"/>
+            <rect x="3" y="16" width="7" height="5" rx="1.5" stroke="#58C3B5" stroke-width="2"/>
+            <rect x="14" y="12" width="7" height="9" rx="1.5" stroke="#58C3B5" stroke-width="2"/>
+          </svg>
+        </div>
+        <h3>Indicadores e BI</h3>
+        <p>Construímos painéis que gestores realmente usam — com indicadores acionáveis, não apenas decorativos.</p>
+        <ul>
+          <li>Dashboards executivos</li>
+          <li>KPIs clínicos e financeiros</li>
+          <li>Alertas e governança de dados</li>
+        </ul>
+      </article>
+      <article class="svc reveal delay-2">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="12" cy="12" r="9" stroke="#58C3B5" stroke-width="2"/>
+            <path d="M12 7v5l3 2" stroke="#58C3B5" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Auditoria clínica</h3>
+        <p>Revisão técnica de prontuários, glosas e protocolos para recuperar receita e mitigar riscos assistenciais.</p>
+        <ul>
+          <li>Auditoria concorrente e retrospectiva</li>
+          <li>Recuperação de glosas</li>
+          <li>Conformidade regulatória</li>
+        </ul>
+      </article>
+      <article class="svc reveal">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M4 6h16M4 12h16M4 18h10" stroke="#58C3B5" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Gestão de processos</h3>
+        <p>Padronizamos rotinas, criamos POPs e instalamos rituais de gestão que sobrevivem à troca de equipe.</p>
+        <ul>
+          <li>Mapeamento e redesenho de fluxos</li>
+          <li>Procedimentos operacionais padrão</li>
+          <li>Rituais de gestão (D, S, M)</li>
+        </ul>
+      </article>
+      <article class="svc reveal delay-1">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3l8 4v6c0 4.5-3.5 7.5-8 8-4.5-.5-8-3.5-8-8V7l8-4z" stroke="#58C3B5" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M9 12l2 2 4-4" stroke="#58C3B5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <h3>Compliance & qualidade</h3>
+        <p>Preparamos a instituição para acreditações, ANS, RDCs e tudo que separa um serviço bom de um serviço excelente.</p>
+        <ul>
+          <li>Programas de acreditação</li>
+          <li>Gestão de não-conformidades</li>
+          <li>LGPD aplicada à saúde</li>
+        </ul>
+      </article>
+      <article class="svc reveal delay-2">
+        <div class="svc-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <circle cx="9" cy="8" r="3" stroke="#58C3B5" stroke-width="2"/>
+            <circle cx="17" cy="11" r="2.5" stroke="#58C3B5" stroke-width="2"/>
+            <path d="M3 20c0-3 3-5 6-5s6 2 6 5" stroke="#58C3B5" stroke-width="2" stroke-linecap="round"/>
+            <path d="M14 20c.5-2 2-3 4-3s3.5 1 4 3" stroke="#58C3B5" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3>Capacitação de equipes</h3>
+        <p>Treinamentos práticos, com simulações e indicadores, para gestores e operação assistencial.</p>
+        <ul>
+          <li>Liderança em saúde</li>
+          <li>Gestão à vista</li>
+          <li>Trilhas customizadas</li>
+        </ul>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     METODOLOGIA
+============================================================ -->
+<section id="metodo" class="method-bg">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">Como trabalhamos</span>
+      <h2>Um método em 4 passos. <span class="grad">Sem rodeios.</span></h2>
+      <p class="sec-lede">Cada engajamento começa com diagnóstico e termina com transferência de conhecimento. Sem dependência permanente, sem entregáveis decorativos.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="step-num">01</div>
+        <h3>Diagnóstico</h3>
+        <p>Mergulho de 2 a 4 semanas na operação. Dados, entrevistas e observação de campo.</p>
+      </div>
+      <div class="step reveal delay-1">
+        <div class="step-num">02</div>
+        <h3>Desenho</h3>
+        <p>Plano de ação com prioridades, donos, prazos e métricas. Aprovado em comitê com a diretoria.</p>
+      </div>
+      <div class="step reveal delay-2">
+        <div class="step-num">03</div>
+        <h3>Execução</h3>
+        <p>Implantação lado a lado com a equipe, com rituais semanais e indicadores acompanhados em tempo real.</p>
+      </div>
+      <div class="step reveal delay-3">
+        <div class="step-num">04</div>
+        <h3>Transferência</h3>
+        <p>Capacitação, documentação e ferramentas para que sua equipe sustente os ganhos sem nós.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     METRICS
+============================================================ -->
+<section id="resultados">
+  <div class="container">
+    <div class="metrics reveal">
+      <div style="position:relative; margin-bottom:40px; max-width:680px;">
+        <span class="eyebrow" style="color:#8BD5F0;">Resultados que ficam</span>
+        <h2 style="color:#fff;">Em média, nossos clientes <span style="background:linear-gradient(120deg,#8BD5F0,#55F28C); -webkit-background-clip:text; background-clip:text; color:transparent;">recuperam o investimento em 90 dias.</span></h2>
+      </div>
+      <div class="metrics-grid">
+        <div>
+          <div class="metric-num"><span data-count="22" data-suffix="%">0%</span></div>
+          <div class="metric-label">Redução média de custos operacionais</div>
+        </div>
+        <div>
+          <div class="metric-num"><span data-count="3.2" data-suffix="x">0x</span></div>
+          <div class="metric-label">Aumento na recuperação de glosas</div>
+        </div>
+        <div>
+          <div class="metric-num"><span data-count="40">0</span>+</div>
+          <div class="metric-label">Instituições parceiras pelo Brasil</div>
+        </div>
+        <div>
+          <div class="metric-num"><span data-count="98" data-suffix="%">0%</span></div>
+          <div class="metric-label">Taxa de retenção de clientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     WHY US
+============================================================ -->
+<section id="por-que" style="padding-top:0;">
+  <div class="container">
+    <div class="reveal">
+      <span class="eyebrow">Por que Lajos & Coelho</span>
+      <h2>Especialistas em saúde, com cabeça de <span class="grad">gestão moderna.</span></h2>
+    </div>
+    <div class="why-grid">
+      <div class="why reveal">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l4 4 12-12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Diagnóstico antes da venda</h3>
+          <p>Não vendemos pacote pronto. Mergulhamos na sua realidade e só então propomos onde podemos gerar valor real.</p>
+        </div>
+      </div>
+      <div class="why reveal delay-1">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l4 4 12-12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Equipe sênior, sempre</h3>
+          <p>O time que vende é o time que executa. Sem juniorização disfarçada nem terceirização para fora do projeto.</p>
+        </div>
+      </div>
+      <div class="why reveal delay-2">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l4 4 12-12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Indicadores acionáveis</h3>
+          <p>Cada métrica que entregamos vem com um dono, um meta-target e um ritual de acompanhamento. Nada decorativo.</p>
+        </div>
+      </div>
+      <div class="why reveal delay-3">
+        <div class="why-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M4 12l4 4 12-12" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h3>Saída prevista desde o início</h3>
+          <p>Trabalhamos para sua autonomia, não para a nossa permanência. Transferência de conhecimento é entrega final obrigatória.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIAL
+============================================================ -->
+<section style="padding-top:0;">
+  <div class="container">
+    <div class="testi reveal">
+      <p class="testi-quote">A Lajos & Coelho não nos entregou um relatório bonito — entregou uma operação diferente. Em seis meses, devolveram à diretoria uma capacidade que tínhamos perdido: tomar decisão com dado, não com achismo.</p>
+      <div class="testi-author">
+        <div class="avatar">RM</div>
+        <div>
+          <b>Renata Magalhães</b>
+          <span>Diretora de Operações · Hospital Vértice</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FAQ
+============================================================ -->
+<section id="faq">
+  <div class="container">
+    <div class="faq-grid">
+      <div class="reveal">
+        <span class="eyebrow">Perguntas frequentes</span>
+        <h2>Antes de você marcar o diagnóstico.</h2>
+        <p class="sec-lede">As dúvidas que mais recebemos de gestores e diretores. Não está aqui? <a href="#contato" style="color:var(--teal); font-weight:500; text-decoration:underline;">Pergunte direto</a>.</p>
+      </div>
+      <div class="faq-list reveal delay-1">
+        <div class="faq-item">
+          <button class="faq-q">Quanto tempo dura um projeto típico?<span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner">Diagnósticos vão de 2 a 4 semanas. Engajamentos de transformação ficam entre 4 e 9 meses, com fases bem delimitadas e gates de aprovação a cada etapa.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Atendem instituições de qualquer porte?<span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner">Trabalhamos com hospitais, clínicas, operadoras e secretarias de médio e grande porte. Para serviços muito pequenos, oferecemos consultoria pontual ou trilhas de capacitação.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Vocês trazem ou usam ferramenta própria?<span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner">Temos um conjunto proprietário de templates, painéis e rituais. Mas integramos com o stack que você já usa — não vendemos sistema, vendemos resultado.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">Como é o investimento?<span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner">Cada proposta é ancorada no resultado esperado. Em projetos de eficiência, frequentemente trabalhamos com componente variável atrelado à economia gerada.</div></div>
+        </div>
+        <div class="faq-item">
+          <button class="faq-q">O diagnóstico inicial é mesmo gratuito?<span class="faq-icon"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 1v10M1 6h10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span></button>
+          <div class="faq-a"><div class="faq-a-inner">Sim. Uma sessão de 60 a 90 minutos com a diretoria, em que mapeamos os principais pontos de dor e indicamos onde poderíamos atuar — sem compromisso.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CTA FINAL + FORM
+============================================================ -->
+<section id="contato" style="padding-top:60px;">
+  <div class="container">
+    <div class="cta-final reveal">
+      <span class="eyebrow" style="justify-content:center;">Vamos conversar</span>
+      <h2>Pronto para virar o jogo da <span class="grad">sua operação?</span></h2>
+      <p class="sec-lede">Marque um diagnóstico gratuito de 60 minutos. Você sai com um mapa claro do que está custando dinheiro e do que pode ser destravado nos próximos 90 dias.</p>
+
+      <form class="form-grid" id="lead-form" novalidate>
+        <div class="input-row">
+          <div class="input-group"><input type="text" name="nome" placeholder="Seu nome" required /></div>
+          <div class="input-group"><input type="text" name="cargo" placeholder="Seu cargo" /></div>
+        </div>
+        <div class="input-row">
+          <div class="input-group"><input type="email" name="email" placeholder="E-mail corporativo" required /></div>
+          <div class="input-group"><input type="tel" name="tel" placeholder="WhatsApp" /></div>
+        </div>
+        <div class="input-group">
+          <select name="instituicao" required>
+            <option value="">Tipo de instituição</option>
+            <option>Hospital</option>
+            <option>Clínica / Centro especializado</option>
+            <option>Operadora de saúde</option>
+            <option>Rede / Grupo</option>
+            <option>Outro</option>
+          </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+          Quero meu diagnóstico
+          <svg class="arr" width="14" height="14" viewBox="0 0 16 16" fill="none">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div class="form-success" id="form-success">
+          <b>Recebemos seus dados.</b> Um especialista entra em contato em até 1 dia útil para alinhar a agenda.
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+============================================================ -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:14px;">
+          <svg width="32" height="32" viewBox="0 0 64 64">
+            <defs>
+              <linearGradient id="ftg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#58C3B5"/><stop offset="1" stop-color="#8BD5F0"/>
+              </linearGradient>
+            </defs>
+            <path d="M 14 4 L 60 4 L 60 18 L 28 18 Q 18 18 18 28 L 18 60 L 4 60 L 4 14 Q 4 4 14 4 Z" fill="url(#ftg)"/>
+            <path d="M 60 60 L 24 60 L 24 46 L 46 46 L 46 24 L 60 24 Z" fill="url(#ftg)" opacity=".55"/>
+            <circle cx="53" cy="11" r="3.2" fill="#55F28C"/>
+          </svg>
+          <span class="footer-brand-text">Lajos<span class="amp">&</span>Coelho</span>
+        </div>
+        <p style="margin:0 0 8px; max-width:280px;">Gestão e serviços em saúde — com inteligência operacional, dados acionáveis e cuidado humano.</p>
+      </div>
+      <div>
+        <h5>Soluções</h5>
+        <ul>
+          <li><a href="#servicos">Diagnóstico operacional</a></li>
+          <li><a href="#servicos">Indicadores e BI</a></li>
+          <li><a href="#servicos">Auditoria clínica</a></li>
+          <li><a href="#servicos">Compliance & qualidade</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Empresa</h5>
+        <ul>
+          <li><a href="#metodo">Metodologia</a></li>
+          <li><a href="#resultados">Resultados</a></li>
+          <li><a href="#faq">FAQ</a></li>
+          <li><a href="#contato">Contato</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Contato</h5>
+        <ul>
+          <li>contato@lajoscoelho.com.br</li>
+          <li>+55 11 9 9999 0000</li>
+          <li>São Paulo · Brasil</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Lajos & Coelho — Gestão e Serviços. Todos os direitos reservados.</span>
+      <span style="display:flex; gap:18px;"><a href="#">Privacidade</a><a href="#">Termos</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // ===== Nav scroll state =====
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 12);
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  // ===== Reveal on scroll =====
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        e.target.classList.add('in');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+  // ===== Count up =====
+  const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
+  const animateCount = (el) => {
+    const target = parseFloat(el.getAttribute('data-count'));
+    const suffix = el.getAttribute('data-suffix') || '';
+    const prefix = el.getAttribute('data-prefix') || '';
+    const decimals = (target % 1 !== 0) ? 1 : 0;
+    const dur = 1600;
+    const start = performance.now();
+    const tick = (now) => {
+      const t = Math.min((now - start) / dur, 1);
+      const v = target * easeOutCubic(t);
+      el.textContent = prefix + v.toFixed(decimals) + suffix;
+      if (t < 1) requestAnimationFrame(tick);
+      else el.textContent = prefix + target.toFixed(decimals) + suffix;
+    };
+    requestAnimationFrame(tick);
+  };
+  const countIO = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) {
+        animateCount(e.target);
+        countIO.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.4 });
+  document.querySelectorAll('[data-count]').forEach((el) => countIO.observe(el));
+
+  // ===== Service cards: cursor-tracked glow =====
+  document.querySelectorAll('.svc').forEach((card) => {
+    card.addEventListener('mousemove', (e) => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+    });
+  });
+
+  // ===== FAQ =====
+  document.querySelectorAll('.faq-item').forEach((item) => {
+    item.querySelector('.faq-q').addEventListener('click', () => {
+      const wasOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach((i) => i.classList.remove('open'));
+      if (!wasOpen) item.classList.add('open');
+    });
+  });
+  // open first by default
+  document.querySelector('.faq-item')?.classList.add('open');
+
+  // ===== Form =====
+  const form = document.getElementById('lead-form');
+  const success = document.getElementById('form-success');
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const nome = form.querySelector('[name=nome]').value.trim();
+    const email = form.querySelector('[name=email]').value.trim();
+    const inst = form.querySelector('[name=instituicao]').value;
+    if (!nome || !email || !inst) {
+      [...form.querySelectorAll('input, select')].forEach((el) => {
+        if (el.required && !el.value.trim()) {
+          el.style.borderColor = '#c0473a';
+          el.style.boxShadow = '0 0 0 3px rgba(192,71,58,.12)';
+          setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 2400);
+        }
+      });
+      return;
+    }
+    success.classList.add('show');
+    form.querySelectorAll('input, select, button').forEach((el) => el.setAttribute('disabled', 'true'));
+  });
+</script>
+
+</body>
+</html>
